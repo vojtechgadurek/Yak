@@ -5,6 +5,19 @@ VisualStudioVersion = 17.11.35303.130
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yak", "Yak\Yak.csproj", "{073227C9-520C-4F35-9F71-DE8BC2C2C63B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SymmetricDifferenceFinder", "..\SymmetricDifferenceFinder\SymmetricDifferenceFinder\SymmetricDifferenceFinder.csproj", "{F1F5D840-A4C6-45ED-9785-32A5C17E2E28}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0CF391D0-2E65-48C2-B651-D66A716C7FC2}"
+	ProjectSection(SolutionItems) = preProject
+		..\KMerUtils\KMerUtils.sln = ..\KMerUtils\KMerUtils.sln
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KMerUtils", "..\KMerUtils\KMerUtils\KMerUtils.csproj", "{6DC5CD4E-640E-4565-98E1-8C318749BBD8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedaFasta", "..\RedaFasta\RedaFasta\RedaFasta.csproj", "{42A239C1-B943-4AD6-AA75-8DA0F87B9881}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlashHash", "..\FlashHash\FlashHash\FlashHash.csproj", "{E31A9699-8F53-4BEC-BBAD-0D39E4A5E6FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +28,28 @@ Global
 		{073227C9-520C-4F35-9F71-DE8BC2C2C63B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{073227C9-520C-4F35-9F71-DE8BC2C2C63B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{073227C9-520C-4F35-9F71-DE8BC2C2C63B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1F5D840-A4C6-45ED-9785-32A5C17E2E28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1F5D840-A4C6-45ED-9785-32A5C17E2E28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1F5D840-A4C6-45ED-9785-32A5C17E2E28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1F5D840-A4C6-45ED-9785-32A5C17E2E28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DC5CD4E-640E-4565-98E1-8C318749BBD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DC5CD4E-640E-4565-98E1-8C318749BBD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DC5CD4E-640E-4565-98E1-8C318749BBD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DC5CD4E-640E-4565-98E1-8C318749BBD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42A239C1-B943-4AD6-AA75-8DA0F87B9881}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42A239C1-B943-4AD6-AA75-8DA0F87B9881}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42A239C1-B943-4AD6-AA75-8DA0F87B9881}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42A239C1-B943-4AD6-AA75-8DA0F87B9881}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E31A9699-8F53-4BEC-BBAD-0D39E4A5E6FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E31A9699-8F53-4BEC-BBAD-0D39E4A5E6FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E31A9699-8F53-4BEC-BBAD-0D39E4A5E6FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E31A9699-8F53-4BEC-BBAD-0D39E4A5E6FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E31A9699-8F53-4BEC-BBAD-0D39E4A5E6FC} = {0CF391D0-2E65-48C2-B651-D66A716C7FC2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {107E6032-ECBA-46AB-8808-5B4AFC20E39C}

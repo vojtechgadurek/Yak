@@ -1,0 +1,1 @@
+{"SketchConfigurations":[{"HashFunctionSchemesFileNames":["tab1","tab2","tab3"],"TableSize":1000,"Filter":null},{"HashFunctionSchemesFileNames":["tab1","tab2","tab3"],"TableSize":1000,"Filter":"{\u0022KMerLength\u0022:31,\u0022MaskLength\u0022:20,\u0022HashFunctionName\u0022:\u0022tab4\u0022}"}]}

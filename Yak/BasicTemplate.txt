@@ -1,0 +1,1 @@
+{"SketchConfigurations":[{"HashFunctionSchemesFileNames":["mul1","mul2","mul3"],"TableSize":10000,"Filter":null}]}
