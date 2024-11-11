@@ -17,7 +17,7 @@ using BenchmarkDotNet.Attributes;
 
 namespace Yak
 {
-    public class HPWWithOracle : IJaccardIndexPredictor, ISymmetricDifferencePredictor
+    public class HPWWithOracle
     {
         Encoder<XORTable> _encoder;
         XORTable _XORTable;
@@ -38,41 +38,11 @@ namespace Yak
         }
         public int GetCount() => _count;
 
-        public HPWWithOracle(int predictedSymmetricDifferenceSize, int nHashFunction, int nStepsDecoderInitial = 1000, int nStepsDecoder = 100, int nRecoverySteps = 10)
+        public HPWWithOracle(Massager<KMerStringFactory, CanonicalOrder> massager)
         {
-            var TabFam = new TabulationFamily();
+            _decoder = massager;
+            _XORTable = massager.HPWDecoder.Sketch;
 
-            var hfSchemes = Enumerable.Range(0, nHashFunction).Select(i => TabFam.GetScheme((ulong)(predictedSymmetricDifferenceSize), 0)).Select(x => (IHashFunctionScheme)x).ToList(); // : new() { TabFam.GetScheme((ulong)(predictedSymmetricDifferenceSize / 2), 0), TabFam.GetScheme((ulong)(predictedSymmetricDifferenceSize / 2), (ulong)(predictedSymmetricDifferenceSize / 2)) };
-            var hfs = hfSchemes.Select(x => x.Create()).ToList();
-            _encoder = new EncoderFactory<XORTable>(new EncoderConfiguration<XORTable>(hfSchemes, predictedSymmetricDifferenceSize), (size) => new XORTable(size)).Create();
-            _XORTable = _encoder.GetTable();
-            _decoder = new Massager<KMerStringFactory, CanonicalOrder>(new HPWDecoderFactory<XORTable>(hfs).Create(_XORTable), hfs.Select(hf => hf.Compile()), nStepsDecoderInitial, nStepsDecoder, nRecoverySteps);
-        }
-        public void AddValuesFromFirstSet(ulong[] values, int numberOfItems)
-        {
-            _count += numberOfItems;
-            _encoder.Encode(values, numberOfItems);
-
-        }
-
-        public void AddValuesFromSecondSet(ulong[] values, int numberOfItems)
-        {
-            _count += numberOfItems;
-            _encoder.Encode(values, numberOfItems);
-        }
-
-        public double PredictJaccardIndex()
-        {
-            if (!decoded)
-            {
-                _decoder.Decode();
-            }
-            Console.WriteLine(_count);
-            int symDiff = _decoder.GetDecodedValues().Count;
-            Console.WriteLine(symDiff);
-
-            //_decoder.GetDecodedValues().Order().ToList().ForEach(Console.WriteLine);
-            return (double)symDiff / _count;
         }
 
         public HashSet<ulong> PredictSymmetricDifference()

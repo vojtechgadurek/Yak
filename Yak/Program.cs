@@ -20,17 +20,15 @@ using SymmetricDifferenceFinder.Improvements.Oracles;
 using System.Text;
 using System.Threading.Tasks.Sources;
 using SymmetricDifferenceFinder.Decoders.HPW;
+using Utilities;
 
 
 
 public partial class Program
 {
-    static void Main(string[] args)
+    static void RunCommand(string[] args)
     {
         string command = args[0];
-
-        Stopwatch stopwatch = new Stopwatch();
-        stopwatch.Start();
         switch (command)
         {
             case "get-all-hash-functions":
@@ -47,19 +45,19 @@ public partial class Program
 
                 break;
             case "compare-exact-hashset":
-                Console.WriteLine(GetExactDifference(args[1], args[2]));
+                Console.WriteLine(IO.GetExactDifference(args[1], args[2]));
                 break;
             case "encode-to-sketch":
-                EncodingConfigTemplate.Open(args[1]).Encode(args[2], args[3], int.Parse(args[4]));
+                IO.EncodingConfigTemplate.Open(args[1]).Encode(args[2], args[3], int.Parse(args[4]));
                 break;
 
             case "create-basic-template":
-                File.WriteAllText(args[1], JsonSerializer.Serialize(new EncodingConfigTemplate([
-                    new SketchConfig(["tab1", "tab2", "tab3"], 1000, null),
-                    new SketchConfig(["tab1", "tab2", "tab3"], 1000, JsonSerializer.Serialize( new Syncmers.SyncMerFilter(31, 20, "tab4")))
+                File.WriteAllText(args[1], JsonSerializer.Serialize(new IO.EncodingConfigTemplate([
+                    new IO.SketchConfig(["tab1", "tab2", "tab3"], 1000, null),
+                    new IO.SketchConfig(["tab1", "tab2", "tab3"], 1000, JsonSerializer.Serialize( new Syncmers.SyncMerFilter(31, 20, "tab4")))
                     ])));
 
-                JsonSerializer.Deserialize<EncodingConfigTemplate>(File.ReadAllText(args[1]));
+                JsonSerializer.Deserialize<IO.EncodingConfigTemplate>(File.ReadAllText(args[1]));
                 break;
 
             case "symmetric-difference":
@@ -67,8 +65,8 @@ public partial class Program
                 string secondFile = args[2];
                 string resultFile = args[3];
 
-                Sketch sketch1 = Sketch.OpenSketch(args[1], args[3]);
-                Sketch sketch2 = Sketch.OpenSketch(args[2], "resultSecond");
+                IO.Sketch sketch1 = IO.Sketch.OpenSketch(args[1], args[3]);
+                IO.Sketch sketch2 = IO.Sketch.OpenSketch(args[2], "resultSecond");
 
                 sketch1.Table.SymmetricDifference(sketch2.Table);
                 sketch1.Dump();
@@ -83,7 +81,7 @@ public partial class Program
 
                 Random random = new Random(seed);
                 string header = $">test k={kMerLength} l={testFileLength}";
-                string dnaString = CreateRandomDNAString(testFileLength, random);
+                string dnaString = IO.CreateRandomDNAString(testFileLength, random);
                 File.WriteAllLines(fileName, [header, dnaString]);
 
 
@@ -91,9 +89,10 @@ public partial class Program
 
             case "recover-sketch":
 
-                string sketchname = args[0];
+                string sketchname = args[1];
+                string result = args[2];
 
-                Sketch sketch = Sketch.OpenSketch(sketchname, "test");
+                IO.Sketch sketch = IO.Sketch.OpenSketch(sketchname, "test");
 
 
                 HPWDecoderFactory<XORTable> decoderFactory = new HPWDecoderFactory<XORTable>(
@@ -102,16 +101,53 @@ public partial class Program
 
                 var decoder = decoderFactory.Create(sketch.Table);
                 decoder.Decode();
+                File.WriteAllBytes(result, JsonSerializer.SerializeToUtf8Bytes(decoder.GetDecodedValues()));
+                Console.WriteLine(decoder.GetDecodedValues().Count);
+                break;
 
+            case "interactive":
+
+                while (true)
+                {
+                    var cm = Console.ReadLine();
+                    if (cm.StartsWith("exit")) break;
+                    try
+                    {
+                        Commands.RunCommand(cm.Split(' '));
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.StackTrace);
+                        Console.WriteLine(e.Message);
+                    }
+                }
+                break;
+            case "execute-file":
+                string fN = args[1];
+                string[] lines = File.ReadAllLines(fN);
+                foreach (var line in lines)
+                {
+                    Commands.RunCommand(line.Split(' '));
+                }
                 break;
 
             default:
                 throw new ArgumentException($"Unknown command {command}");
         }
+    }
+    static void Main(string[] args)
+    {
+        string command = args[0];
+
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
+        RunCommand(args);
         stopwatch.Stop();
         Console.WriteLine($"Execution time: {stopwatch.ElapsedMilliseconds} ms");
     }
-
+}
+public static class IO
+{
 
     public static int GetExactDifference(string firstFileName, string secondFileName)
     {
@@ -132,14 +168,14 @@ public partial class Program
             return symmetricDifferenceComparer.PredictSymmetricDifference().Count;
         }
     }
-    static void CompareTwoFiles(IFastaFileReader firstSet, IFastaFileReader secondSet, ISymmetricDifferenceComparer comparer, int nTasks = 8)
+    public static void CompareTwoFiles(IFastaFileReader firstSet, IFastaFileReader secondSet, ISymmetricDifferenceComparer comparer, int nTasks = 8)
     {
         FromFileToComparer(comparer.AddValuesFromFirstSet, firstSet);
         FromFileToComparer(comparer.AddValuesFromSecondSet, secondSet);
     }
 
 
-    static string CreateRandomDNAString(int fileLength, Random random)
+    public static string CreateRandomDNAString(int fileLength, Random random)
     {
         char[] chars = ['A', 'C', 'G', 'T'];
         StringBuilder stringBuilder = new StringBuilder(fileLength);
@@ -150,7 +186,7 @@ public partial class Program
         return stringBuilder.ToString();
     }
 
-    static void FromFileToComparer(Action<ulong[], int> addToComparer, IFastaFileReader fastaFileReader)
+    public static void FromFileToComparer(Action<ulong[], int> addToComparer, IFastaFileReader fastaFileReader)
     {
         while (true)
         {
@@ -230,7 +266,6 @@ public partial class Program
             return (encoder.GetTable(), (ulong[] t, int i) => GetFilter(Filter)(t, i, encoder.Encode));
         }
     };
-
     public record Sketch(string SketchName, XORTable Table, SketchConfig Config)
     {
 
@@ -334,9 +369,6 @@ public partial class Program
                     Console.WriteLine(item);
                 }
             }
-
-            actions[0]([99999999999], 1);
-
 
             for (int i = 0; i < SketchConfigurations.Length; i++)
             {

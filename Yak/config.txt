@@ -1,1 +1,1 @@
-{"fileName":"test1029","KMerLength":31,"NKmers":100000000,"sketchFoldersNames":["0"]}
+{"fileName":"test2","KMerLength":31,"NKmers":28716,"sketchFoldersNames":["0"]}
