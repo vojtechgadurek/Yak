@@ -51,6 +51,15 @@ public partial class Program
                 IO.EncodingConfigTemplate.Open(args[1]).Encode(args[2], args[3], int.Parse(args[4]));
                 break;
 
+            case "create-template":
+                File.WriteAllText(args[1], JsonSerializer.Serialize(new IO.EncodingConfigTemplate([
+                    new IO.SketchConfig([args[3], args[4], args[5]], int.Parse(args[2]), null),
+                    new IO.SketchConfig([args[6], args[7], args[8]], int.Parse(args[2]), JsonSerializer.Serialize( new Syncmers.SyncMerFilter(31, 20, args[9])))
+                    ])));
+
+                JsonSerializer.Deserialize<IO.EncodingConfigTemplate>(File.ReadAllText(args[1]));
+                break;
+
             case "create-basic-template":
                 File.WriteAllText(args[1], JsonSerializer.Serialize(new IO.EncodingConfigTemplate([
                     new IO.SketchConfig(["tab1", "tab2", "tab3"], 1000, null),
