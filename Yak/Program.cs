@@ -131,6 +131,17 @@ public partial class Program
                 }
                 break;
 
+            case "execute-files":
+                foreach (var fN1 in args.Skip(1))
+                {
+                    string[] lines1 = File.ReadAllLines(fN1);
+                    foreach (var line in lines1)
+                    {
+                        Commands.RunCommand(line.Split(' '));
+                    }
+                }
+                break;
+
             default:
                 throw new ArgumentException($"Unknown command {command}");
         }
