@@ -147,7 +147,7 @@ namespace Yak
                     [("HashSetName", typeof(HashSet<ulong>)), ("DecoderName", typeof(string))],
                     (string[] args) => {
                         Variables<HPWWithOracle>.Values[args[1]].Decode();
-                        Variables<HashSet<ulong>>.Set(args[0], Variables<HPWDecoder<XORTable>>.Values[args[0]].GetDecodedValues());
+                        Variables<HashSet<ulong>>.Set(args[0], Variables<HPWWithOracle>.Values[args[1]].PredictSymmetricDifference());
                     },
                     "Decode a decoder by decoder name"){
                 },
