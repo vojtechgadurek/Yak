@@ -142,6 +142,33 @@ namespace Yak
                     },
                     "Decode a decoder by decoder name"){
                 },
+
+                new Command("decode-decoder-oracle",
+                    [("HashSetName", typeof(HashSet<ulong>)), ("DecoderName", typeof(string))],
+                    (string[] args) => {
+                        Variables<HPWWithOracle>.Values[args[1]].Decode();
+                        Variables<HashSet<ulong>>.Set(args[0], Variables<HPWDecoder<XORTable>>.Values[args[0]].GetDecodedValues());
+                    },
+                    "Decode a decoder by decoder name"){
+                },
+
+                new Command("decoder-oracle-get-state",
+                    [("HashSetName", typeof(HashSet<ulong>)), ("DecoderName", typeof(string))],
+                    (string[] args) => {
+                        Console.WriteLine(Variables<HPWWithOracle>.Values[args[1]].DecodingState);
+                    },
+                    "Decode a decoder by decoder name"){
+                },
+
+                new Command("decoder-get-state",
+                    [("HashSetName", typeof(HashSet<ulong>)), ("DecoderName", typeof(string))],
+                    (string[] args) => {
+                        Console.WriteLine(Variables<HPWDecoder<XORTable>>.Values[args[1]].DecodingState);
+                    },
+                    "Decode a decoder by decoder name"){
+                },
+
+
                 new Command("set-variable",
                 [("VariableName", typeof(string)), ("Value", typeof(string))],
                     (string[] args) => {
