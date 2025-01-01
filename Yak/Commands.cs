@@ -137,8 +137,8 @@ namespace Yak
                 new Command("decode-decoder",
                     [("HashSetName", typeof(HashSet<ulong>)), ("DecoderName", typeof(string))],
                     (string[] args) => {
-                        Variables<HPWDecoder<XORTable>>.Values[args[0]].Decode();
-                        Variables<HashSet<ulong>>.Set(args[1], Variables<HPWDecoder<XORTable>>.Values[args[0]].GetDecodedValues());
+                        Variables<HPWDecoder<XORTable>>.Values[args[1]].Decode();
+                        Variables<HashSet<ulong>>.Set(args[0], Variables<HPWDecoder<XORTable>>.Values[args[1]].GetDecodedValues());
                     },
                     "Decode a decoder by decoder name"){
                 },
@@ -153,17 +153,17 @@ namespace Yak
                 },
 
                 new Command("decoder-oracle-get-state",
-                    [("HashSetName", typeof(HashSet<ulong>)), ("DecoderName", typeof(string))],
+                    [ ("DecoderName", typeof(string))],
                     (string[] args) => {
-                        Console.WriteLine(Variables<HPWWithOracle>.Values[args[1]].DecodingState);
+                        Console.WriteLine(Variables<HPWWithOracle>.Values[args[0]].DecodingState);
                     },
                     "Decode a decoder by decoder name"){
                 },
 
                 new Command("decoder-get-state",
-                    [("HashSetName", typeof(HashSet<ulong>)), ("DecoderName", typeof(string))],
+                    [("DecoderName", typeof(string))],
                     (string[] args) => {
-                        Console.WriteLine(Variables<HPWDecoder<XORTable>>.Values[args[1]].DecodingState);
+                        Console.WriteLine(Variables<HPWDecoder<XORTable>>.Values[args[0]].DecodingState);
                     },
                     "Decode a decoder by decoder name"){
                 },
