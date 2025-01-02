@@ -3,6 +3,7 @@ Yak is console wrapper around SymmetricDifferenceFinder library (fast symmetric 
 See SymmetricDifferenceFinder for more stable API. 
 ## Instalation - Linux
 Net 7.0 is required
+
 Run build.sh command, then add Yak to your path, by:
 ```
 PATH=$PATH:/workspaces/codespaces-blank/Yak/Yak/bin/Release/net8.0
