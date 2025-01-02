@@ -87,10 +87,13 @@ namespace Yak
 
                     //We should not forget that some of the values are already in the set
                     //And we do not want to lose them
-                    _HPWWithOracle.ToggleValues(newlyDecoded, newlyDecoded.Length);
+                    var values = _HPWWithOracle.PredictSymmetricDifference();
+                    var putIn = newlyDecoded.Where(x => !values.Contains(x)).ToArray();
+
+                    _HPWWithOracle.Encode(putIn, newlyDecoded.Length);
                     Console.WriteLine($"Recovery After {_HPWWithOracle.PredictSymmetricDifference().Count}");
                     _HPWWithOracle.SimpleDecode();
-                    _HPWWithOracle.ToggleValues(newlyDecoded, newlyDecoded.Length);
+                    _HPWWithOracle.Encode(putIn, newlyDecoded.Length);
                     _HPWWithOracle.SimpleDecode();
                     _HPWWithOracle.Decode();
 

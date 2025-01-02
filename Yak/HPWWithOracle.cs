@@ -92,6 +92,13 @@ namespace Yak
             _encoder.Encode(values, nItemsInBuffer);
         }
 
+        public void Encode(ulong[] values, int nItemsInBuffer)
+        {
+            _decoder.GetDecodedValues().SymmetricExceptWith(values.Take(nItemsInBuffer));
+            _encoder.Encode(values, nItemsInBuffer);
+        }
+
+
         public SymmetricDifferenceFinder.Decoders.Common.DecodingState DecodingState => _decoder.DecodingState;
 
     }
