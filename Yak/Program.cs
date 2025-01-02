@@ -54,8 +54,8 @@ public partial class Program
 
             case "create-template":
                 File.WriteAllText(args[1], JsonSerializer.Serialize(new IO.EncodingConfigTemplate([
-                    new IO.SketchConfig([args[4], args[5], args[6]], int.Parse(args[2]), null),
-                    new IO.SketchConfig([args[7], args[8], args[9]], int.Parse(args[3]), JsonSerializer.Serialize( new Syncmers.SyncMerFilter(31, 20, args[9])))
+                    new IO.SketchConfig(args.AsSpan().Slice(5, 3).ToArray(), int.Parse(args[2]), null),
+                    new IO.SketchConfig(args.AsSpan().Slice(8, 3).ToArray(),int.Parse(args[2]),  JsonSerializer.Serialize( new Syncmers.SyncMerFilter(31, int.Parse(args[4]), args[9])))
                     ])));
 
                 JsonSerializer.Deserialize<IO.EncodingConfigTemplate>(File.ReadAllText(args[1]));
