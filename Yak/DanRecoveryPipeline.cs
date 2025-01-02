@@ -48,8 +48,10 @@ namespace Yak
             {
                 decoded = true;
 
-                _HPWWithOracle.ToggleValues(_startingKmers.ToArray(), _startingKmers.Count);
 
+
+                _HPWWithOracle.Decode();
+                _HPWWithOracle.AddValues(_startingKmers.ToArray(), _startingKmers.Count);
             }
             for (int i = 0; i < _rounds; i++)
             {
@@ -70,7 +72,7 @@ namespace Yak
                             //RemoveHeaders
                             .Select(x => x >>> 2)
                             .ToArray(), kMerLength, _maxDistance, _minDistance, false
-                            ).Where(_ => random.Next(0, 2) == 1).ToArray();
+                            ).Where(_ => random.Next(0, 1) == 0).ToArray();
 
 
 
@@ -87,15 +89,11 @@ namespace Yak
 
                     //We should not forget that some of the values are already in the set
                     //And we do not want to lose them
-                    var values = _HPWWithOracle.PredictSymmetricDifference();
-                    var putIn = newlyDecoded.Where(x => !values.Contains(x)).ToArray();
-                    Console.WriteLine($"Put in{putIn.Length}");
 
-                    _HPWWithOracle.Encode(putIn, putIn.Length);
+                    _HPWWithOracle.AddValues(newlyDecoded, newlyDecoded.Length);
                     Console.WriteLine($"Recovery After {_HPWWithOracle.PredictSymmetricDifference().Count}");
-                    _HPWWithOracle.SimpleDecode();
-                    _HPWWithOracle.Encode(putIn, putIn.Length);
-                    _HPWWithOracle.SimpleDecode();
+                    //HPWWithOracle.Decode();
+
                     _HPWWithOracle.Decode();
 
 
