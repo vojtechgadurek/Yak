@@ -37,7 +37,7 @@ namespace Yak
 
         public void Decode()
         {
-            if (decoded = false)
+            if (decoded == false)
             {
                 decoded = true;
                 var newlyDecoded =

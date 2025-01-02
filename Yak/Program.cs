@@ -143,7 +143,7 @@ public partial class Program
 
             case "execute-file-args":
                 string fN2 = args[1];
-                for (int i = 1; i < args.Length - 2; i++)
+                for (int i = 1; i < args.Length - 1; i++)
                 {
                     Commands.RunCommand(["set-variable", i.ToString(), args[1 + i]]);
                 }

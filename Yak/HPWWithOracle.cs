@@ -38,10 +38,11 @@ namespace Yak
         }
         public int GetCount() => _count;
 
-        public HPWWithOracle(Massager<KMerStringFactory, CanonicalOrder> massager)
+        public HPWWithOracle(Massager<KMerStringFactory, CanonicalOrder> massager, Encoder<XORTable> encoder)
         {
             _decoder = massager;
             _XORTable = massager.HPWDecoder.Sketch;
+            _encoder = encoder;
 
         }
 

@@ -14,6 +14,7 @@ using SymmetricDifferenceFinder.Improvements.Oracles;
 using SymmetricDifferenceFinder.Improvements.StringFactories;
 using System.Text.Json.Nodes;
 using System.Text.Json;
+using SymmetricDifferenceFinder.Encoders;
 
 namespace Yak
 {
@@ -95,7 +96,11 @@ namespace Yak
                     var decoder = new Massager<KMerStringFactory, CanonicalOrder>(decoderFactory.Create(sketch.Table), hfs.Select(x => x.Compile()));
                     decoder.NStepsDecoder = int.Parse(args[2]);
                     decoder.NStepsDecoderInitial = int.Parse(args[3]);
-                    Variables<HPWWithOracle>.Set(args[0], new HPWWithOracle(decoder));
+
+
+                    EncoderConfiguration<XORTable> encoderConfiguration = new(sketch.Config.HashFunctionSchemesFileNames.Select(x => HashFunctionCache.Get(x)), sketch.Config.TableSize);
+
+                    Variables<HPWWithOracle>.Set(args[0], new HPWWithOracle(decoder, new EncoderFactory<XORTable>(encoderConfiguration, x => new XORTable(x)).Create(decoder.HPWDecoder.Sketch)));
                 },
                 "Create a decoder by sketch name"
                 ),
