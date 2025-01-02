@@ -46,6 +46,11 @@ namespace Yak
 
         }
 
+        public void SimpleDecode()
+        {
+            _decoder.HPWDecoder.Decode();
+        }
+
         public HashSet<ulong> PredictSymmetricDifference()
         {
             if (!decoded)

@@ -89,8 +89,9 @@ namespace Yak
                     //And we do not want to lose them
                     _HPWWithOracle.ToggleValues(newlyDecoded, newlyDecoded.Length);
                     Console.WriteLine($"Recovery After {_HPWWithOracle.PredictSymmetricDifference().Count}");
-                    _HPWWithOracle.Decode();
+                    _HPWWithOracle.SimpleDecode();
                     _HPWWithOracle.ToggleValues(newlyDecoded, newlyDecoded.Length);
+                    _HPWWithOracle.SimpleDecode();
                     _HPWWithOracle.Decode();
 
 
