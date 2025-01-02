@@ -18,25 +18,31 @@ namespace Yak
         int _minDistance = 1;
         int _maxDistance = 20;
         int _rounds = 1;
-
+        bool _verbose;
 
         bool decoded = false;
         const int kMerLength = 31;
         //ToDo: make it generic -> there are some issues in the underlying library
         //however it would take some time to fix them
 
-        public DanRecoveryPipeline(HPWWithOracle mainDecoder, HashSet<ulong> startingKmers, int minDistance, int maxDistance, int rounds)
+        public DanRecoveryPipeline(HPWWithOracle mainDecoder, HashSet<ulong> startingKmers, int minDistance, int maxDistance, int rounds, bool verbose = true)
         {
             _HPWWithOracle = mainDecoder;
             _minDistance = minDistance;
             _maxDistance = maxDistance;
             _rounds = rounds;
             _startingKmers = startingKmers;
+            _verbose = verbose;
         }
 
 
         public void Decode()
         {
+            if (_verbose) Console.WriteLine("Starting decoding");
+            Console.WriteLine($"Starting set size {_startingKmers.Count}");
+            Console.WriteLine($"_minDistance {_minDistance}, _maxDistance{_maxDistance}, _rounds {_rounds}");
+            Console.WriteLine($"NSteps {_HPWWithOracle.NStepsDecoder}, NStepsRecovery {_HPWWithOracle.NStepsRecovery}");
+
             if (decoded == false)
             {
                 decoded = true;
