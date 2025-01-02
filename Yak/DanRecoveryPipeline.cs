@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FlashHash.SchemesAndFamilies;
 using KMerUtils.KMer;
+using System.Net.Http.Headers;
 
 namespace Yak
 {
@@ -46,22 +47,9 @@ namespace Yak
             if (decoded == false)
             {
                 decoded = true;
-                var newlyDecoded =
-                        KMerUtils.DNAGraph.Recover.RecoverGraphCanonicalV3(
-                            _startingKmers
-                            //RemoveHeaders
-                            .Select(x => x >>> 2)
-                            .ToArray(), kMerLength, _maxDistance, _minDistance, false
-                            );
-                for (int index = 0; index < newlyDecoded.Length; index++)
-                {
-                    //AddHeader
-                    newlyDecoded[index] = (newlyDecoded[index] << 2) | 0b11;
-                }
 
-                //We should not forget that some of the values are already in the set
-                //And we do not want to lose them
-                _HPWWithOracle.AddValues(newlyDecoded, newlyDecoded.Length);
+                _HPWWithOracle.ToggleValues(_startingKmers.ToArray(), _startingKmers.Count);
+
             }
             for (int i = 0; i < _rounds; i++)
             {
@@ -75,13 +63,16 @@ namespace Yak
                 {
                     Console.WriteLine($"Recovery {_HPWWithOracle.PredictSymmetricDifference().Count}");
 
+                    Random random = new Random();
                     var newlyDecoded =
                         KMerUtils.DNAGraph.Recover.RecoverGraphCanonicalV3(
                             _HPWWithOracle.PredictSymmetricDifference()
                             //RemoveHeaders
                             .Select(x => x >>> 2)
                             .ToArray(), kMerLength, _maxDistance, _minDistance, false
-                            );
+                            ).Where(_ => random.Next(0, 2) == 1).ToArray();
+
+
 
                     Console.WriteLine($"Graph decoded {newlyDecoded.Count()}");
                     Console.WriteLine($"Graph decoded {newlyDecoded.ToHashSet().Count()}");
@@ -96,9 +87,12 @@ namespace Yak
 
                     //We should not forget that some of the values are already in the set
                     //And we do not want to lose them
-                    _HPWWithOracle.AddValues(newlyDecoded, newlyDecoded.Length);
+                    _HPWWithOracle.ToggleValues(newlyDecoded, newlyDecoded.Length);
                     Console.WriteLine($"Recovery After {_HPWWithOracle.PredictSymmetricDifference().Count}");
                     _HPWWithOracle.Decode();
+                    _HPWWithOracle.ToggleValues(newlyDecoded, newlyDecoded.Length);
+                    _HPWWithOracle.Decode();
+
 
                 }
 

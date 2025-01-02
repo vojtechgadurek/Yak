@@ -83,7 +83,7 @@ namespace Yak
 
         public void ToggleValues(ulong[] values, int nItemsInBuffer)
         {
-            _decoder.GetDecodedValues().ExceptWith(values.Take(nItemsInBuffer));
+            _decoder.GetDecodedValues().SymmetricExceptWith(values.Take(nItemsInBuffer));
             _encoder.Encode(values, nItemsInBuffer);
         }
 
