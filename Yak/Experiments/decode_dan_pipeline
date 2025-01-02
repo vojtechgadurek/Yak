@@ -1,0 +1,10 @@
+load-sketch $1 nothing sketch1
+load-sketch $2 nothing sketch2
+recover-sketch-basic res sketch2
+print-string Helping-Sketch-Size
+get-hashset-size res
+print-string -
+create-oracle-decoder dec sketch1 100 10 $5
+dan-recovery-pipeline val dec res 0 $4 15
+get-hashset-size val
+dump-hashset val $3
