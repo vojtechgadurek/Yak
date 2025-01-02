@@ -55,6 +55,15 @@ namespace Yak
                         sketch1.Table.SymmetricDifference(sketch2.Table);
                     },
                     "SymmetricDifference of two sketches Args1 and Args2, this operation is destructive to the first sketch. One can always load new copy."),
+                new Command("sym-diff-hashset",
+                    [("VariableName1", typeof(string)), ("VariableName2", typeof(string))],
+                    (string[] args) => {
+                        var sketch1 = Variables<HashSet<ulong>>.Values[args[0]];
+                        var sketch2 = Variables<HashSet<ulong>>.Values[args[1]];
+                        sketch1.SymmetricExceptWith(sketch2);
+                    },
+                    "SymmetricDifference of two sketches Args1 and Args2, this operation is destructive to the first sketch. One can always load new copy."),
+
 
                 new Command("dump-sketch",
                     [("SketchName", typeof(string))],
