@@ -21,6 +21,7 @@ using System.Text;
 using System.Threading.Tasks.Sources;
 using SymmetricDifferenceFinder.Decoders.HPW;
 using Utilities;
+using LittleSharp;
 
 
 
@@ -135,6 +136,19 @@ public partial class Program
                 string fN = args[1];
                 string[] lines = File.ReadAllLines(fN);
                 foreach (var line in lines)
+                {
+                    Commands.RunCommand(line.Split(' '));
+                }
+                break;
+
+            case "execute-file-args":
+                string fN2 = args[1];
+                for (int i = 1; i < args.Length - 2; i++)
+                {
+                    Commands.RunCommand(["set-variable", i.ToString(), args[1 + i]]);
+                }
+                string[] lines2 = File.ReadAllLines(fN2);
+                foreach (var line in lines2)
                 {
                     Commands.RunCommand(line.Split(' '));
                 }

@@ -112,6 +112,15 @@ namespace Yak
 
                 ),
 
+                new Command("load-hashset",
+                [("HashSetName", typeof(string)), ("FileName", typeof(string))],
+                (args) => {
+                    Variables<HashSet<ulong>>.Set(args[0], JsonSerializer.Deserialize<HashSet<ulong>>(File.ReadAllText(args[1])));
+                },
+                "Load a hashset from a file."
+                ),
+
+
                 new Command("dump-hashset",
 
 
