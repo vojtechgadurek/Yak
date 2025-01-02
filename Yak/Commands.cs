@@ -137,11 +137,19 @@ namespace Yak
                 "Dump a hashset to a file."
                 ),
 
+                new Command("print-string",
+                [("value", typeof(string))],
+                (args) => {
+                    Console.Write(args[0]);
+                },
+                "Print a string to the console."
+                ),
+
                 new Command(
                     "get-hashset-size",
                     [("HashSetName", typeof(string))],
                     (args) => {
-                        Console.WriteLine(Variables<HashSet<ulong>>.Values[args[0]].Count);
+                        Console.Write(Variables<HashSet<ulong>>.Values[args[0]].Count);
                     },
                     "Get the size of a hashset."
                 ),
