@@ -86,7 +86,7 @@ namespace Yak
                    "Create a decoder by sketch name"
                    ),
                 new Command("create-oracle-decoder",
-                [("VariableName", typeof(string)), ("SketchName", typeof(string)), ("DecoderStepsDuringDecodingRound", typeof(int)) ,("DecoderStepsInitial", typeof(int))],
+                [("VariableName", typeof(string)), ("SketchName", typeof(string)), ("DecoderStepsDuringDecodingRound", typeof(int)) ,("DecoderStepsInitial", typeof(int)), ("DecoderSteps", typeof(int))],
                 (string[] args) => {
                     var sketch = Variables<IO.Sketch>.Values[args[1]];
                     var hfs =  sketch.Config.HashFunctionSchemesFileNames.Select(x => HashFunctionCache.Get(x).Create()).ToList();
@@ -96,6 +96,7 @@ namespace Yak
                     var decoder = new Massager<KMerStringFactory, CanonicalOrder>(decoderFactory.Create(sketch.Table), hfs.Select(x => x.Compile()));
                     decoder.NStepsDecoder = int.Parse(args[2]);
                     decoder.NStepsDecoderInitial = int.Parse(args[3]);
+                    decoder.NStepsRecovery = int.Parse(args[4]);
 
 
                     EncoderConfiguration<XORTable> encoderConfiguration = new(sketch.Config.HashFunctionSchemesFileNames.Select(x => HashFunctionCache.Get(x)), sketch.Config.TableSize);
