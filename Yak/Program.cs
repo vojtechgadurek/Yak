@@ -49,7 +49,8 @@ public partial class Program
                 Console.WriteLine(IO.GetExactDifference(args[1], args[2]));
                 break;
             case "encode-to-sketch":
-                IO.EncodingConfigTemplate.Open(args[1]).Encode(args[2], args[3], int.Parse(args[4]));
+
+                IO.EncodingConfigTemplate.Open(args[1]).Encode(args[2], args[3], int.Parse(args[4]), args.Length > 5 ? int.Parse(args[5]) : 2048);
                 break;
 
             case "create-template":
@@ -359,7 +360,7 @@ public static class IO
                 throw new ArgumentException($"{templateName} template does not exits");
         }
 
-        public void Encode(string fileName, string sketchName, int nInstances)
+        public void Encode(string fileName, string sketchName, int nInstances, int bufferSize = 2048)
         {
             if (Directory.Exists(sketchName))
             {
@@ -369,7 +370,7 @@ public static class IO
             Directory.CreateDirectory(sketchName);
 
             var fastaFileReaderConfig = FastaFile.Open(new StreamReader(fileName));
-            var fastaFileReader = new FastaFileReader(fastaFileReaderConfig.kMerSize, fastaFileReaderConfig.nCharsInFile, fastaFileReaderConfig.textReader, bufferSize: 2048, nInstances * 2);
+            var fastaFileReader = new FastaFileReader(fastaFileReaderConfig.kMerSize, fastaFileReaderConfig.nCharsInFile, fastaFileReaderConfig.textReader, bufferSize: bufferSize, nInstances * 2);
 
 
 
