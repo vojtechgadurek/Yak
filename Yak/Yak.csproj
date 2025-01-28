@@ -1,17 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-	<PropertyGroup>
-		<OutputType>Exe</OutputType>
-		<TargetFramework>net8.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-	</PropertyGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\..\FlashHash\FlashHash\FlashHash.csproj" />
-		<ProjectReference Include="..\..\KMerUtils\KMerUtils\KMerUtils.csproj" />
-		<ProjectReference Include="..\..\RedaFasta\RedaFasta\RedaFasta.csproj" />
-		<ProjectReference Include="..\..\SymmetricDifferenceFinder\SymmetricDifferenceFinder\SymmetricDifferenceFinder.csproj" />
-	</ItemGroup>
-
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\FlashHash\FlashHash\FlashHash.csproj" />
+    <ProjectReference Include="..\..\KMerUtils\KMerUtils\KMerUtils.csproj" />
+    <ProjectReference Include="..\..\RedaFasta\RedaFasta\RedaFasta.csproj" />
+    <ProjectReference Include="..\..\SymmetricDifferenceFinder\SymmetricDifferenceFinder\SymmetricDifferenceFinder.csproj" />
+  </ItemGroup>
 </Project>
