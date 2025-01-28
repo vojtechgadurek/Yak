@@ -384,9 +384,10 @@ public static class IO
 
             //every 1s return the number of items left in reader
 
+            bool end = false;
             var task = Task.Run(() =>
             {
-                while (true)
+                while (end)
                 {
                     Console.WriteLine($"Workleft {(double)fastaFileReader.CharsLeft / fastaFileReaderConfig.nCharsInFile}");
                     Task.Delay(1000).Wait();
@@ -394,6 +395,8 @@ public static class IO
             });
 
             ParallelEncode(actions, fastaFileReader);
+
+            end = true;
 
 
             XORTable[] answers = new XORTable[SketchConfigurations.Length];
