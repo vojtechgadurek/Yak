@@ -385,7 +385,7 @@ public static class IO
 
             //every 1s return the number of items left in reader
 
-            bool end = false;
+            bool end = true;
             var task = Task.Run(() =>
             {
                 while (end)
@@ -397,7 +397,7 @@ public static class IO
 
             ParallelEncode(actions, fastaFileReader);
 
-            end = true;
+            end = false;
 
 
             XORTable[] answers = new XORTable[SketchConfigurations.Length];
