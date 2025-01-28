@@ -423,6 +423,7 @@ public static class IO
             for (int i = 0; i < SketchConfigurations.Length; i++)
             {
                 new Sketch(Path.Combine(sketchName, i.ToString()), answers[i], SketchConfigurations[i]).Dump();
+                Console.WriteLine($"Successfully writen Sketch {i}");
             }
 
             File.WriteAllText(
