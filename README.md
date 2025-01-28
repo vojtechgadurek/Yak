@@ -6,7 +6,7 @@ Net 7.0 is required
 
 Run build.sh command, then add Yak to your path, by:
 ```
-PATH=$PATH:/workspaces/codespaces-blank/Yak/Yak/bin/Release/net8.0
+PATH=$PATH:/<repository>/Yak/Yak/bin/Release/net8.0
 ```
 ## Basic info
 There are two stages, encoding and decoding(recovery).
