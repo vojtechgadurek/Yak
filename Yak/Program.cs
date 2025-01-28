@@ -49,7 +49,6 @@ public partial class Program
                 Console.WriteLine(IO.GetExactDifference(args[1], args[2]));
                 break;
             case "encode-to-sketch":
-
                 IO.EncodingConfigTemplate.Open(args[1]).Encode(args[2], args[3], int.Parse(args[4]), args.Length > 5 ? int.Parse(args[5]) : 2048);
                 break;
 
@@ -382,6 +381,17 @@ public static class IO
                 tables[i] = e.Select(x => x.table).ToArray();
                 actions[i] = e.Select(x => x.encoder).Aggregate(Connector);
             }
+
+            //every 1s return the number of items left in reader
+
+            var task = Task.Run(() =>
+            {
+                while (true)
+                {
+                    Console.WriteLine($"Workleft {(double)fastaFileReader.CharsLeft / fastaFileReaderConfig.nCharsInFile}");
+                    Task.Delay(1000).Wait();
+                }
+            });
 
             ParallelEncode(actions, fastaFileReader);
 
