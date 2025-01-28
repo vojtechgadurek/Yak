@@ -308,7 +308,8 @@ public static class IO
         {
             Directory.CreateDirectory(SketchName);
             DumpXORTable(Table, Path.Combine(SketchName, "sketch.b"));
-            File.WriteAllText(Path.Combine(SketchName, "config.txt"), JsonSerializer.Serialize(Config));
+            File.WriteAllText(Path.Combine(SketchName, "config.txt"),
+                JsonSerializer.Serialize(Config));
         }
 
         public static Sketch OpenSketch(string sketchName, string newSketchName)
@@ -322,14 +323,14 @@ public static class IO
 
         static XORTable ReadXORTable(string fileName)
         {
-            var table = JsonSerializer.Deserialize<ulong[]>(File.ReadAllBytes(fileName));
+            var table = JsonSerializer.Deserialize<ulong[]>(File.Open(fileName, FileMode.Open));
             var xorTable = new XORTable(table);
             return xorTable;
         }
 
         public static void DumpXORTable(XORTable xORTable, string fileName)
         {
-            File.WriteAllBytes(fileName, JsonSerializer.SerializeToUtf8Bytes(xORTable.GetUnderlyingTable()));
+            JsonSerializer.Serialize(File.Open(fileName, FileMode.Create), xORTable.GetUnderlyingTable());
         }
     };
 
@@ -417,6 +418,7 @@ public static class IO
                     Console.WriteLine(item);
                 }
             }
+
 
             for (int i = 0; i < SketchConfigurations.Length; i++)
             {
