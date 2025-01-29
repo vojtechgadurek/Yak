@@ -305,10 +305,10 @@ public static class IO
     {
 
         Encoder<XORTable>? _encoder = null;
-        public void Dump()
+        public async Task Dump()
         {
             Directory.CreateDirectory(SketchName);
-            DumpXORTable(Table, Path.Combine(SketchName, "sketch.b"));
+            await DumpXORTable(Table, Path.Combine(SketchName, "sketch.b"));
             File.WriteAllText(Path.Combine(SketchName, "config.txt"),
                 JsonSerializer.Serialize(Config));
         }
@@ -330,9 +330,9 @@ public static class IO
             return xorTable;
         }
 
-        public static void DumpXORTable(XORTable xORTable, string fileName)
+        public async Task DumpXORTable(XORTable xORTable, string fileName)
         {
-            File.WriteAllBytes(fileName, MemoryMarshal.AsBytes(xORTable.GetUnderlyingTable().AsSpan()));
+            await File.WriteAllBytesAsync(fileName, MemoryMarshal.AsBytes(xORTable.GetUnderlyingTable().AsSpan()).ToArray());
         }
     };
 
@@ -422,11 +422,13 @@ public static class IO
             }
 
 
+            List<Task> tasks = new List<Task>();
             for (int i = 0; i < SketchConfigurations.Length; i++)
             {
-                new Sketch(Path.Combine(sketchName, i.ToString()), answers[i], SketchConfigurations[i]).Dump();
+                tasks.Add(new Sketch(Path.Combine(sketchName, i.ToString()), answers[i], SketchConfigurations[i]).Dump());
                 Console.WriteLine($"Successfully writen Sketch {i}");
             }
+            Task.WaitAll(tasks.ToArray());
 
             File.WriteAllText(
                 "config.txt",
