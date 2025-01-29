@@ -22,6 +22,7 @@ using System.Threading.Tasks.Sources;
 using SymmetricDifferenceFinder.Decoders.HPW;
 using Utilities;
 using LittleSharp;
+using System.Runtime.InteropServices;
 
 
 
@@ -323,14 +324,15 @@ public static class IO
 
         static XORTable ReadXORTable(string fileName)
         {
-            var table = JsonSerializer.Deserialize<ulong[]>(File.Open(fileName, FileMode.Open));
+
+            var table = MemoryMarshal.Cast<byte, ulong>(File.ReadAllBytes(fileName)).ToArray();
             var xorTable = new XORTable(table);
             return xorTable;
         }
 
         public static void DumpXORTable(XORTable xORTable, string fileName)
         {
-            JsonSerializer.Serialize(File.Open(fileName, FileMode.Create), xORTable.GetUnderlyingTable());
+            File.WriteAllBytes(fileName, MemoryMarshal.AsBytes(xORTable.GetUnderlyingTable().AsSpan()));
         }
     };
 
